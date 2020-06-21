@@ -1,0 +1,25 @@
+nginx:
+  build: ./docker/nginx
+  ports:
+    - 80:80
+  links:
+    - php
+  volumes_from:
+    - app
+
+php:
+  build: ./docker/php/
+  expose:
+    - 9000
+  links:
+    - mysql 
+  volumes_from:
+    - app
+
+app:
+  image: php:7.0-fpm
+  volumes:
+    - ./hello-slim/public:/var/www/html
+    - ./hello-slim:/var/www
+  command: "true"
+
